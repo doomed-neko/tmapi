@@ -8,7 +8,7 @@ homepage = "https://github.com/doomed-neko/tmapi"
 repository = "https://github.com/doomed-neko/tmapi"
 readme = "README.md"
 keywords = ["barid", "tempmail"]
-categories = ["api", "library"]
+categories = ["api-bindings", "email"]
 
 [dependencies]
 email_address = "0.2.9"
