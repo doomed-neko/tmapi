@@ -1,4 +1,4 @@
-![docs status](https://docs.rs/tmapi/badge.svg)
+![docs status](https://docs.rs/tmapi/badge.svg) ![tests status](https://github.com/doomed-neko/tmapi/workflows/Rust/badge.svg)
 
 # TempMailAPI for rust
 
