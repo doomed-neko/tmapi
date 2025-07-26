@@ -7,7 +7,7 @@ use crate::{
     types::{Email, errors::EmailsError},
 };
 #[derive(Debug, Deserialize, Clone)]
-struct GetResponse {
+struct GetEmailsResponse {
     success: bool,
     result: Option<Vec<Email>>,
     error: Option<Error>,
@@ -40,7 +40,7 @@ impl Client {
             self.email
         );
         let response = self.client.get(url).send().await?;
-        let response = response.json::<GetResponse>().await?;
+        let response = response.json::<GetEmailsResponse>().await?;
         if response.success {
             Ok(response.result.unwrap())
         } else {
@@ -49,7 +49,7 @@ impl Client {
     }
 }
 impl EmailsError {
-    fn from_get_emails(response: GetResponse) -> Self {
+    fn from_get_emails(response: GetEmailsResponse) -> Self {
         let error = response.error.unwrap();
 
         match response.note {
@@ -63,5 +63,54 @@ impl EmailsError {
                 message: error.description,
             },
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn domain_error_conversion() {
+        let response = GetEmailsResponse {
+            success: false,
+            error: Some(Error {
+                name: "DomainError".into(),
+                description: "Invalid domain".into(),
+            }),
+            note: Some(SupportedDomainsNote {
+                supported_domains: vec![],
+            }),
+            result: None,
+        };
+        let error = EmailsError::from_get_emails(response);
+        assert_eq!(
+            error,
+            EmailsError::DomainError {
+                name: "DomainError".into(),
+                message: "Invalid domain".into(),
+                supported_domains: vec![]
+            }
+        )
+    }
+    #[test]
+    fn validation_error_conversion() {
+        let response = GetEmailsResponse {
+            success: false,
+            error: Some(Error {
+                name: "ValidationError".into(),
+                description: "Invalid input".into(),
+            }),
+            note: None,
+            result: None,
+        };
+        let error = EmailsError::from_get_emails(response);
+        assert_eq!(
+            error,
+            EmailsError::ValidationError {
+                name: "ValidationError".into(),
+                message: "Invalid input".into(),
+            }
+        )
     }
 }

@@ -58,7 +58,7 @@ mod tests {
         let response = DeleteResponse {
             success: false,
             error: Some(Error {
-                name: "Validation Error".into(),
+                name: "ValidationError".into(),
                 description: "Invalid input".into(),
             }),
             result: None,
@@ -67,7 +67,7 @@ mod tests {
         assert_eq!(
             error,
             EmailsError::ValidationError {
-                name: "Validation Error".into(),
+                name: "ValidationError".into(),
                 message: "Invalid input".into()
             }
         )
