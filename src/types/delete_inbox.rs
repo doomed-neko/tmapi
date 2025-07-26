@@ -46,3 +46,27 @@ impl EmailsError {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn error_conversion() {
+        let response = DeleteResponse {
+            success: false,
+            error: Some(Error {
+                name: "Validation Error".into(),
+                description: "Invalid input".into(),
+            }),
+        };
+        let error = EmailsError::from_delete_inbox(response);
+        assert_eq!(
+            error,
+            EmailsError::ValidationError {
+                name: "Validation Error".into(),
+                message: "Invalid input".into()
+            }
+        )
+    }
+}
