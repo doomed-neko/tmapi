@@ -21,7 +21,7 @@ struct SupportedDomainsNote {
 
 impl Client {
     /// Get all messages for an email.
-    /// You can specify a limit and/or an offest for easier pagination.
+    /// You can specify a limit and/or an offset for easier pagination.
     /// maximum limit is 100, minimum is 1
     /// minimum offset is 0
     ///
