@@ -1,7 +1,4 @@
-#[cfg(not(feature = "blocking"))]
 use reqwest::Client as ReqClient;
-#[cfg(feature = "blocking")]
-use reqwest::blocking::Client as ReqClient;
 
 pub(crate) const API_URL: &str = "https://api.barid.site";
 

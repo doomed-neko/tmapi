@@ -21,14 +21,8 @@ impl Client {
     /// ```
     pub async fn get_domains(&self) -> Result<Vec<String>, crate::ErrorType> {
         let url = format!("{API_URL}/domains");
-        #[cfg(not(feature = "blocking"))]
         let response = self.client.get(url).send().await?;
-        #[cfg(feature = "blocking")]
-        let response = self.client.get(url).send()?;
-        #[cfg(not(feature = "blocking"))]
         let response = response.json::<DomainsResponse>().await?;
-        #[cfg(feature = "blocking")]
-        let response = response.json::<DomainsResponse>()?;
         Ok(response.result)
     }
 }

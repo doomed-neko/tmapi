@@ -37,14 +37,8 @@ impl Client {
             }));
         }
         let url = format!("{API_URL}/inbox/{email_id}");
-        #[cfg(not(feature = "blocking"))]
         let response = self.client.get(url).send().await?;
-        #[cfg(not(feature = "blocking"))]
         let response = response.json::<GetInboxResponse>().await?;
-        #[cfg(feature = "blocking")]
-        let response = self.client.get(url).send()?;
-        #[cfg(feature = "blocking")]
-        let response = response.json::<GetInboxResponse>()?;
         if response.success {
             Ok(response.result.unwrap())
         } else {

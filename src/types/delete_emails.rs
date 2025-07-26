@@ -29,15 +29,8 @@ impl Client {
     /// ```
     pub async fn delete_all_emails(&self) -> Result<u32, crate::ErrorType> {
         let url = format!("{API_URL}/emails/{}", self.email);
-        #[cfg(not(feature = "blocking"))]
         let response = self.client.delete(url).send().await?;
-        #[cfg(feature = "blocking")]
-        let response = self.client.delete(url).send()?;
-
-        #[cfg(not(feature = "blocking"))]
         let response = response.json::<DeleteResponse>().await?;
-        #[cfg(feature = "blocking")]
-        let response = response.json::<DeleteResponse>()?;
         if response.success {
             Ok(response.result.unwrap().deleted_count)
         } else {
