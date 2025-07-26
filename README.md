@@ -8,7 +8,10 @@ This is a library crate for interacting with [vwh](https://vwh.sh)'s TempMail se
 
 ```rust
 use tmapi::Client;
-
 let client = Client::new("y@iusearch.lol").unwrap();
-client.delete_inbox("usm2sw0qfv9a5ku9z4xmh8og").await.unwrap();
+//                              limit, offset
+let emails = client.get_emails(  10  ,   0   ).await.unwrap();
+let first_email = emails.iter().next().unwrap();
+let id = &first_email.id;
+client.delete_inbox(id).await.unwrap();
 ```
