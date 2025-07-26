@@ -6,7 +6,7 @@ pub(crate) type ErrorType = Box<dyn ErrorTrait + Send + Sync>;
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum EmailsError {
     /// This error occurs when the given input is in bad format, for both emails and inbox IDs.
-    #[error("Invalid email format")]
+    #[error("Invalid input")]
     ValidationError { name: String, message: String },
     /// This error occurs when using a domain that is not supported by the service.
     /// For supported domains see [`Client::get_domains`]
