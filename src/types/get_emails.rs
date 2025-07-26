@@ -39,8 +39,14 @@ impl Client {
             "{API_URL}/emails/{}?limit={limit}&offset={offset}",
             self.email
         );
+        #[cfg(not(feature = "blocking"))]
         let response = self.client.get(url).send().await?;
+        #[cfg(feature = "blocking")]
+        let response = self.client.get(url).send()?;
+        #[cfg(not(feature = "blocking"))]
         let response = response.json::<GetEmailsResponse>().await?;
+        #[cfg(feature = "blocking")]
+        let response = response.json::<GetEmailsResponse>()?;
         if response.success {
             Ok(response.result.unwrap())
         } else {

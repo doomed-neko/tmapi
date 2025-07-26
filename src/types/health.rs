@@ -37,8 +37,14 @@ impl Client {
     ///
     pub async fn server_health(self) -> Result<ServerHealth, crate::ErrorType> {
         let url = format!("{API_URL}/health");
+        #[cfg(not(feature = "blocking"))]
         let response = self.client.get(url).send().await?;
+        #[cfg(not(feature = "blocking"))]
         let response = response.json::<HealthResponse>().await?;
+        #[cfg(feature = "blocking")]
+        let response = self.client.get(url).send()?;
+        #[cfg(feature = "blocking")]
+        let response = response.json::<HealthResponse>()?;
         Ok(response.result)
     }
 }

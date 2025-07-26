@@ -27,8 +27,14 @@ impl Client {
         S: Into<String>,
     {
         let url = format!("{API_URL}/inbox/{}", email_id.into());
+        #[cfg(not(feature = "blocking"))]
         let response = self.client.delete(url).send().await?;
+        #[cfg(feature = "blocking")]
+        let response = self.client.delete(url).send()?;
+        #[cfg(not(feature = "blocking"))]
         let response = response.json::<DeleteResponse>().await?;
+        #[cfg(feature = "blocking")]
+        let response = response.json::<DeleteResponse>()?;
         if response.success {
             Ok(())
         } else {
