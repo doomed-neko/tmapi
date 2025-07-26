@@ -8,9 +8,17 @@ struct HealthResponse {
 }
 #[derive(Debug, Deserialize, Clone)]
 pub struct ServerHealth {
-    pub worker: String,
-    pub database: String,
-    pub kv: String,
+    pub worker: ServerHealthStatus,
+    pub database: ServerHealthStatus,
+    pub kv: ServerHealthStatus,
+}
+
+#[derive(Debug, Deserialize, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub enum ServerHealthStatus {
+    #[serde(rename = "connected")]
+    Connected,
+    #[serde(rename = "disconnected")]
+    Disconnected,
 }
 impl Client {
     /// Check server health
@@ -18,15 +26,18 @@ impl Client {
     /// ## Example
     /// ```no_run
     /// use tmapi::Client;
+    /// use tmapi::ServerHealthStatus;
     ///
     /// # async {
     /// let client = Client::new("y@iusearch.lol").unwrap();
     /// let status = client.server_health().await.unwrap();
+    /// assert_eq!(status.database, ServerHealthStatus::Connected);
     /// # };
     /// ```
+    ///
     pub async fn server_health(self) -> Result<ServerHealth, crate::ErrorType> {
         let url = format!("{API_URL}/health");
-        let response = self.client.delete(url).send().await?;
+        let response = self.client.get(url).send().await?;
         let response = response.json::<HealthResponse>().await?;
         Ok(response.result)
     }

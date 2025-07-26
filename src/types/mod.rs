@@ -1,12 +1,13 @@
 use serde::{Deserialize, Serialize};
-pub mod errors;
+
+pub(super) mod errors;
+pub(super) mod health;
 
 mod delete_emails;
 mod delete_inbox;
 mod get_domains;
 mod get_emails;
 mod get_inbox;
-mod health;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Email {
