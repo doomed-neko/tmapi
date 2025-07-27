@@ -29,11 +29,11 @@ impl Client {
     ///
     /// # async {
     /// let client = Client::new("y@iusearch.lol").unwrap();
-    /// let emails = client.get_emails(10, 0).await.unwrap();
+    /// let emails = client.email_count().await.unwrap();
     /// # };
     /// ```
     pub async fn email_count(&self) -> Result<u32, crate::ErrorType> {
-        let url = format!("{API_URL}/count/{}", self.email);
+        let url = format!("{API_URL}/emails/count/{}", self.email);
         let response = self.client.get(url).send().await?;
         let response = response.json::<CountResponse>().await?;
         if response.success {
