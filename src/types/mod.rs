@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 pub(super) mod errors;
 pub(super) mod health;
 
+mod count_emails;
 mod delete_emails;
 mod delete_inbox;
 mod get_domains;
