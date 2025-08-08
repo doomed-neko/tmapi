@@ -30,6 +30,10 @@ pub struct Email {
     pub html_content: Option<String>,
     /// Message content formatted as text
     pub text_content: Option<String>,
+    /// Indicates whether the email has attachments or not
+    pub has_attachments: bool,
+    /// Message received date
+    pub attachment_count: u32,
 }
 
 #[derive(Debug, Deserialize, Clone)]
