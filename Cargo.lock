@@ -1115,7 +1115,7 @@ dependencies = [
 
 [[package]]
 name = "tmapi"
-version = "0.1.4-2"
+version = "1.0.0"
 dependencies = [
  "email_address",
  "reqwest",

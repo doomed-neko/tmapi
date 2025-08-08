@@ -1,6 +1,6 @@
 [package]
 name = "tmapi"
-version = "0.1.4-2"
+version = "1.0.0"
 edition = "2024"
 license-file = "LICENSE"
 description = "Simple TempMailAPI library for barid.site"
