@@ -1,6 +1,6 @@
 use reqwest::Client as ReqClient;
 
-pub(crate) const API_URL: &str = "https://api.barid.site";
+pub(crate) const API_URL: &str = "https://api.driftz.net";
 
 #[derive(Debug, Clone)]
 pub struct Client {
